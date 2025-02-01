@@ -2,13 +2,13 @@ import unittest
 
 from flask import json
 
-from base.models.comment import Comment  # noqa: E501
-from base.models.create_comment import CreateComment  # noqa: E501
-from base.models.create_post import CreatePost  # noqa: E501
-from base.models.hello_get200_response import HelloGet200Response  # noqa: E501
-from base.models.post import Post  # noqa: E501
-from base.models.user import User  # noqa: E501
-from base.test import BaseTestCase
+from server.models.comment import Comment  # noqa: E501
+from server.models.create_comment import CreateComment  # noqa: E501
+from server.models.create_post import CreatePost  # noqa: E501
+from server.models.hello_get200_response import HelloGet200Response  # noqa: E501
+from server.models.post import Post  # noqa: E501
+from server.models.user import User  # noqa: E501
+from server.test import BaseTestCase
 
 
 class TestDefaultController(BaseTestCase):

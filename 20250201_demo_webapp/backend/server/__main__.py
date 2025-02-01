@@ -2,7 +2,7 @@
 
 import connexion
 
-from base import encoder
+from server import encoder
 
 
 def main():

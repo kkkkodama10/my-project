@@ -16,7 +16,7 @@ paths:
                 $ref: '#/components/schemas/_hello_get_200_response'
           description: A greeting message
       summary: Returns a greeting message
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
   /posts:
     get:
       operationId: posts_get
@@ -30,7 +30,7 @@ paths:
                 type: array
           description: Successful response
       summary: Get all posts
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
     post:
       operationId: posts_post
       requestBody:
@@ -43,7 +43,7 @@ paths:
         "201":
           description: Post created
       summary: Create a new post
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
   /posts/{id}:
     get:
       operationId: posts_id_get
@@ -63,7 +63,7 @@ paths:
                 $ref: '#/components/schemas/Post'
           description: Successful response
       summary: Get a post by ID
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
   /posts/{id}/comments:
     get:
       operationId: posts_id_comments_get
@@ -85,7 +85,7 @@ paths:
                 type: array
           description: Successful response
       summary: Get all comments for a post
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
     post:
       operationId: posts_id_comments_post
       parameters:
@@ -106,7 +106,7 @@ paths:
         "201":
           description: Comment added
       summary: Add a comment to a post
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
   /posts/{id}/likes:
     delete:
       operationId: posts_id_likes_delete
@@ -122,7 +122,7 @@ paths:
         "200":
           description: Like removed
       summary: Unlike a post
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
     post:
       operationId: posts_id_likes_post
       parameters:
@@ -137,7 +137,7 @@ paths:
         "200":
           description: Like added
       summary: Like a post
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
   /users:
     get:
       operationId: users_get
@@ -151,7 +151,7 @@ paths:
                 type: array
           description: Successful response
       summary: Get all users
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
     post:
       operationId: users_post
       requestBody:
@@ -164,7 +164,7 @@ paths:
         "201":
           description: User created
       summary: Create a new user
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
   /users/{id}:
     get:
       operationId: users_id_get
@@ -184,7 +184,7 @@ paths:
                 $ref: '#/components/schemas/User'
           description: Successful response
       summary: Get a user by ID
-      x-openapi-router-controller: base.controllers.default_controller
+      x-openapi-router-controller: server.controllers.default_controller
 components:
   schemas:
     User:

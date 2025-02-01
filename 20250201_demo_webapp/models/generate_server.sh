@@ -27,7 +27,7 @@ set -e
 echo "Generating Python Flask server from $SPEC_FILE..."
 
 # コード生成
-openapi-generator-cli generate -i "$SPEC_FILE" -g "$GENERATOR" -o "$OUTPUT_DIR" -p packageName=base
+openapi-generator-cli generate -i "$SPEC_FILE" -g "$GENERATOR" -o "$OUTPUT_DIR" -p packageName=server
 
 # 成功メッセージ
 echo "Server generated successfully in $OUTPUT_DIR"

@@ -2,6 +2,6 @@
 
 # 1) 必要に応じて、プロジェクトのディレクトリへ移動
 cd /Users/kodamakeita/Documents/github/20250201_demo_webapp/backend
-# 2) uWSGI 実行
-uwsgi --ini uwsgi.ini
+# 2) server 実行
+python -m server
 
