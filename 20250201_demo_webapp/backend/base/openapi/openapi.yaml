@@ -1,0 +1,290 @@
+openapi: 3.0.0
+info:
+  title: Simple SNS API
+  version: 1.0.0
+servers:
+- url: http://localhost:8080
+paths:
+  /hello:
+    get:
+      operationId: hello_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_hello_get_200_response'
+          description: A greeting message
+      summary: Returns a greeting message
+      x-openapi-router-controller: base.controllers.default_controller
+  /posts:
+    get:
+      operationId: posts_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Post'
+                type: array
+          description: Successful response
+      summary: Get all posts
+      x-openapi-router-controller: base.controllers.default_controller
+    post:
+      operationId: posts_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePost'
+        required: true
+      responses:
+        "201":
+          description: Post created
+      summary: Create a new post
+      x-openapi-router-controller: base.controllers.default_controller
+  /posts/{id}:
+    get:
+      operationId: posts_id_get
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: Successful response
+      summary: Get a post by ID
+      x-openapi-router-controller: base.controllers.default_controller
+  /posts/{id}/comments:
+    get:
+      operationId: posts_id_comments_get
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Comment'
+                type: array
+          description: Successful response
+      summary: Get all comments for a post
+      x-openapi-router-controller: base.controllers.default_controller
+    post:
+      operationId: posts_id_comments_post
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateComment'
+        required: true
+      responses:
+        "201":
+          description: Comment added
+      summary: Add a comment to a post
+      x-openapi-router-controller: base.controllers.default_controller
+  /posts/{id}/likes:
+    delete:
+      operationId: posts_id_likes_delete
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Like removed
+      summary: Unlike a post
+      x-openapi-router-controller: base.controllers.default_controller
+    post:
+      operationId: posts_id_likes_post
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Like added
+      summary: Like a post
+      x-openapi-router-controller: base.controllers.default_controller
+  /users:
+    get:
+      operationId: users_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/User'
+                type: array
+          description: Successful response
+      summary: Get all users
+      x-openapi-router-controller: base.controllers.default_controller
+    post:
+      operationId: users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "201":
+          description: User created
+      summary: Create a new user
+      x-openapi-router-controller: base.controllers.default_controller
+  /users/{id}:
+    get:
+      operationId: users_id_get
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successful response
+      summary: Get a user by ID
+      x-openapi-router-controller: base.controllers.default_controller
+components:
+  schemas:
+    User:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        username: username
+      properties:
+        id:
+          title: id
+          type: integer
+        username:
+          title: username
+          type: string
+        createdAt:
+          format: date-time
+          title: createdAt
+          type: string
+      title: User
+      type: object
+    Post:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        userId: 6
+        content: content
+      properties:
+        id:
+          title: id
+          type: integer
+        userId:
+          title: userId
+          type: integer
+        content:
+          title: content
+          type: string
+        createdAt:
+          format: date-time
+          title: createdAt
+          type: string
+      title: Post
+      type: object
+    CreatePost:
+      example:
+        userId: 0
+        content: content
+      properties:
+        userId:
+          title: userId
+          type: integer
+        content:
+          title: content
+          type: string
+      title: CreatePost
+      type: object
+    Comment:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        postId: 6
+        userId: 1
+        content: content
+      properties:
+        id:
+          title: id
+          type: integer
+        postId:
+          title: postId
+          type: integer
+        userId:
+          title: userId
+          type: integer
+        content:
+          title: content
+          type: string
+        createdAt:
+          format: date-time
+          title: createdAt
+          type: string
+      title: Comment
+      type: object
+    CreateComment:
+      example:
+        userId: 0
+        content: content
+      properties:
+        userId:
+          title: userId
+          type: integer
+        content:
+          title: content
+          type: string
+      title: CreateComment
+      type: object
+    _hello_get_200_response:
+      example:
+        message: message
+      properties:
+        message:
+          title: message
+          type: string
+      title: _hello_get_200_response
+      type: object
