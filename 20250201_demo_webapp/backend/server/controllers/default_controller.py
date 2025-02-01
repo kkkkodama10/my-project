@@ -11,8 +11,10 @@ from server.models.post import Post  # noqa: E501
 from server.models.user import User  # noqa: E501
 from server import util
 
-from database.db_helper import DBHelper  # DB操作用のクラスをインポート
+import logging
+logger = logging.getLogger(__name__)
 
+from database.db_helper import DBHelper
 
 
 def hello_get():  # noqa: E501
@@ -155,40 +157,65 @@ def posts_id_likes_post(id):  # noqa: E501
 
 
 def users_get():  # noqa: E501
-    """Get all users
-
-     # noqa: E501
-
-
-    :rtype: Union[List[User], Tuple[List[User], int], Tuple[List[User], int, Dict[str, str]]
     """
-    return 'do some magic!'
-
-
-def users_id_get(id):  # noqa: E501
-    """Get a user by ID
-
-     # noqa: E501
-
-    :param id: 
-    :type id: int
-
-    :rtype: Union[User, Tuple[User, int], Tuple[User, int, Dict[str, str]]
+    Get all users
     """
-    return 'do some magic!'
+    db = DBHelper()  # DBHelperインスタンスを作成
+    try:
+        rows = db.get_all_users()  # これは Row オブジェクトのリストと想定
+
+        result = []
+        for row in rows:
+            # row["id"], row["content"] のようにキーアクセスできるなら dict() 変換可能
+            result.append(dict(row))  # または row._asdict() など
+
+        return result, 200
+
+    except Exception as e:
+        return {"message": f"An error occurred: {str(e)}"}, 500
+
+
+def users_id_get(id_):  # noqa: E501
+    """
+    Get a user by ID
+    """
+    db = DBHelper()
+    try:
+        row = db.get_user(id_)  # 単一Row or None を想定
+        if row is None:
+            return {"message": f"User with ID {id_} not found"}, 404
+
+        # Row → dict へ変換
+        user_dict = dict(row)
+        return user_dict, 200
+
+    except Exception as e:
+        return {"message": f"An error occurred: {str(e)}"}, 500
 
 
 def users_post(body):  # noqa: E501
-    """Create a new user
-
-     # noqa: E501
-
-    :param user: 
-    :type user: dict | bytes
-
-    :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
-    user = body
-    if connexion.request.is_json:
-        user = User.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    Create a new user
+    """
+    db = DBHelper()  # DBHelperインスタンスを作成
+    try:
+        # リクエストボディがJSONの場合、CreatePostオブジェクトに変換
+        if connexion.request.is_json:
+            create_users = User.from_dict(connexion.request.get_json())  # noqa: E501
+        else:
+            return {"message": "Invalid input format"}, 400
+        # 必須フィールドのチェック
+        if not create_users.username:
+            return {"message": "username and content are required"}, 400
+        # データベースに新しいポストを追加
+        post_id = db.create_user(create_users.username)
+
+        # 成功レスポンスを返す
+        return {"message": "Post created successfully", "post_id": post_id}, 201
+
+    except Exception as e:
+        # エラーハンドリング
+        return {"message": f"An error occurred: {str(e)}"}, 500
+
+    finally:
+        db.close()  # データベース接続を閉じる
