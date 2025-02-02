@@ -1,3 +1,5 @@
 .DS_Store
 20250201_demo_webapp/database/sns_app.db
 20250201_demo_webapp/database/__pycache__/db_helper.cpython-313.pyc
+
+frontend2/*

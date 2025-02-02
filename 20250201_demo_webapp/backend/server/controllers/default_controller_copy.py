@@ -2,6 +2,7 @@ import connexion
 from typing import Dict
 from typing import Tuple
 from typing import Union
+from flask import Blueprint, jsonify
 
 from server.models.comment import Comment  # noqa: E501
 from server.models.create_comment import CreateComment  # noqa: E501
@@ -16,7 +17,12 @@ logger = logging.getLogger(__name__)
 
 from database.db_helper import DBHelper
 
+default_controller = Blueprint('default_controller', __name__)
 
+def register_routes(app):
+    app.register_blueprint(default_controller) 
+
+@default_controller.route('/hello', methods=['GET'])
 def hello_get():  # noqa: E501
     """Returns a greeting message
 
@@ -28,6 +34,7 @@ def hello_get():  # noqa: E501
     return 'do some magic!'
 
 
+@default_controller.route('/posts', methods=['GET'])
 def posts_get():  # noqa: E501
     """Get all posts
     """
@@ -156,6 +163,7 @@ def posts_id_likes_post(id):  # noqa: E501
     return 'do some magic!'
 
 
+@default_controller.route('/users', methods=['GET'])
 def users_get():  # noqa: E501
     """
     Get all users
@@ -192,8 +200,8 @@ def users_id_get(id_):  # noqa: E501
     except Exception as e:
         return {"message": f"An error occurred: {str(e)}"}, 500
 
-
-def users_post(body):  # noqa: E501
+@default_controller.route('/users', methods=['POST'])
+def users_post():  # noqa: E501
     """
     Create a new user
     """
