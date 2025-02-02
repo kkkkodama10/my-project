@@ -1,15 +1,33 @@
 <!-- src/app/posts-list/posts-list.component.html -->
 <div class="posts-list">
-    <h2>Posts</h2>
-    <ul>
-      <li *ngFor="let post of posts" (click)="viewPost(post)">
-        <div class="post-content">
-          {{ post.content }}
-        </div>
-        <div class="post-meta">
-          Posted by User {{ post.userId }} on {{ post.createdAt | date:'short' }}
-        </div>
-      </li>
-    </ul>
+  <h2>Posts</h2>
+  <ul>
+    <li *ngFor="let post of posts" (click)="viewPost(post)">
+      <div class="post-content">
+        {{ post.content }}
+      </div>
+      <div class="post-meta">
+        Posted by User {{ post.userId }} on {{ post.createdAt | date:'short' }}
+      </div>
+    </li>
+  </ul>
+
+  <!-- 新規投稿作成フォーム -->
+  <div class="new-post-form">
+    <h3>Create New Post</h3>
+    <div class="form-group">
+      <label for="userSelect">User:</label>
+      <select id="userSelect" [(ngModel)]="newPost.userId">
+        <option [value]="0">Select a user</option>
+        <option *ngFor="let user of users" [value]="user.id">
+          {{ user.username }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="postContent">Content:</label>
+      <textarea id="postContent" [(ngModel)]="newPost.content" placeholder="Enter post content"></textarea>
+    </div>
+    <button (click)="addPost()">Submit Post</button>
   </div>
-  
+</div>

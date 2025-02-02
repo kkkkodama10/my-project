@@ -25,9 +25,10 @@ export class UsersListComponent implements OnInit {
 
   addUser() {
     if (!this.newUser.username.trim()) return;
-    this.userService.createUser(this.newUser).subscribe(user => {
-      this.users.push(user);
-      this.newUser.username = '';
+  
+    this.userService.createUser(this.newUser).subscribe(() => {
+      this.newUser.username = ''; // 入力欄をクリア
+      this.loadUsers(); // ✅ 最新のユーザーリストを取得
     });
   }
 

@@ -57,7 +57,8 @@ def posts_get():  # noqa: E501
     finally:
         db.close()
         
-def posts_post(body):  # noqa: E501
+@default_controller.route('/posts', methods=['POST'])
+def posts_post():  # noqa: E501
     """Create a new post
 
      # noqa: E501
