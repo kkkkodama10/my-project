@@ -1,3 +1,5 @@
 .DS_Store
 20250201_demo_webapp/database/__pycache__/db_helper.cpython-313.pyc
 20250201_demo_webapp/backend/database/sns_app.db
+
+20250202_deepseek/Janus-Pro-1B/pytorch_model.bin
