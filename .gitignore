@@ -1,6 +1,7 @@
 .DS_Store
 .python-version
 __pycache__
+node_modules
 
 20250201_demo_webapp/backend/database/sns_app.db
 
@@ -10,3 +11,4 @@ __pycache__
 20250216_baseball_sc/scraping/*.csv
 20250216_baseball_sc/scraping/*.json
 20250216_baseball_sc/who_is_this_pyayer
+20250202_deepseek/Janus-Pro-1B

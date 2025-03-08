@@ -3,10 +3,27 @@ import Board from './Board';
 
 // オセロのゲームロジックを実装
 function calculateWinner(squares) {
-  // ここに勝敗判定のロジックを実装（省略）
-  return null; // 現状では勝者はいない
-}
-
+    // 勝利パターンの組み合わせ
+    const lines = [
+      [0, 1, 2], // 横一列
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6], // 縦一列
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8], // 斜め
+      [2, 4, 6]
+    ];
+  
+    // 各組み合わせについて勝利条件をチェック
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        return squares[a]; // 勝者 (X または O) を返す
+      }
+    }
+    return null; // 勝者なし
+  }
 function Game() {
   // 盤面の状態を管理
   const [squares, setSquares] = useState(Array(9).fill(null)); // 盤面は9マス
