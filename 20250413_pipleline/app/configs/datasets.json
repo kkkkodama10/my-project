@@ -1,0 +1,19 @@
+{
+    "iris": {
+      "type": "builtin",
+      "loader": "load_iris",
+      "params": {}
+    },
+    "wine": {
+      "type": "builtin",
+      "loader": "load_wine",
+      "params": {}
+    },
+    "custom_dataset": {
+      "type": "csv",
+      "path": "data/my_dataset.csv",
+      "params": {
+        "target_column": "target"
+      }
+    }
+  }

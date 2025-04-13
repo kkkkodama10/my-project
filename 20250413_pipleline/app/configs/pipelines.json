@@ -1,0 +1,17 @@
+{
+    "default_pipeline": [
+      { "type": "StandardScaler", "params": {} },
+      { "type": "PCA", "params": { "n_components": 3 } },
+      { "type": "RandomForestClassifier", "params": { "n_estimators": 100, "random_state": 42 } }
+    ],
+    "svm_pipeline": [
+      { "type": "MinMaxScaler", "params": {} },
+      { "type": "SVC", "params": { "C": 1.0, "kernel": "rbf", "probability": true } }
+    ],
+    "feature_selection_pipeline": [
+      { "type": "StandardScaler", "params": {} },
+      { "type": "SelectKBest", "params": { "k": 5 } },
+      { "type": "PCA", "params": { "n_components": 2 } },
+      { "type": "LogisticRegression", "params": { "C": 1.0, "solver": "lbfgs" } }
+    ]
+  }
