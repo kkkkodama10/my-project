@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ペット詳細</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-4">ペット詳細</h1>
+    <table class="table table-bordered">
+        <tr>
+            <th>名前</th>
+            <td>{{ pet.name }}</td>
+        </tr>
+        <tr>
+            <th>種別</th>
+            <td>{{ pet.species }}</td>
+        </tr>
+        <tr>
+            <th>性別</th>
+            <td>{{ pet.sex }}</td>
+        </tr>
+        <tr>
+            <th>登録日</th>
+            <td>{{ pet.created_at }}</td>
+        </tr>
+        <tr>
+            <th>更新日</th>
+            <td>{{ pet.updated_at }}</td>
+        </tr>
+    </table>
+    <a href="{{ url_for('pet.edit_pet', id=pet.id) }}" class="btn btn-warning">編集</a>
+    <form action="{{ url_for('pet.delete_pet', id=pet.id) }}" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger">削除</button>
+    </form>
+    <a href="{{ url_for('pet.list_pets') }}" class="btn btn-secondary">戻る</a>
+</div>
+</body>
+</html>
