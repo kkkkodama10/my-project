@@ -1,0 +1,13 @@
+{
+	"servers": {
+		"github": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"@modelcontextprotocol/server-github"
+			],
+			"type": "stdio"
+		}
+	},
+	"inputs": []
+}
