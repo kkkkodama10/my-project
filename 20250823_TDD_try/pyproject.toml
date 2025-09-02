@@ -1,0 +1,12 @@
+[tool.mypy]
+# このディレクトリ以下を対象
+files = ["."]
+# 使っているPythonに合わせて（例：3.10/3.11）
+python_version = "3.10"
+
+# 初期導入向けの“ちょい厳しめ”設定
+disallow_untyped_defs = true      # 引数・返り値の型を書かない関数を許さない
+no_implicit_optional = true       # None を含む可能性は Optional[...] を明示
+warn_unused_ignores = true        # 不要な # type: ignore を警告
+show_error_codes = true           # エラーコード表示で検索しやすく
+ignore_missing_imports = true     # まずは外部ライブラリの未解決を無視（徐々に外す）
