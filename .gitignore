@@ -1,5 +1,8 @@
 .DS_Store
 .python-version
+*.db
+*.mp4
+.github
 __pycache__
 node_modules
 
@@ -12,3 +15,15 @@ node_modules
 20250216_baseball_sc/scraping/*.json
 20250216_baseball_sc/who_is_this_pyayer
 20250202_deepseek/Janus-Pro-1B
+20250412_lamda/0412-sam-app/.aws-sam
+
+20250608_waymo/
+20250601_waymo
+20250622_waymo
+20250601_notion/
+
+20250810_wasbook/wasbook-docker
+20250830_text2speach/data
+
+.vscode/
+20250830_text2speach/README.md
