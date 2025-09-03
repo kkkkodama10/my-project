@@ -5,7 +5,7 @@ import pathlib, datetime, sys
 MAX_BYTES = 4800  # 5000バイト未満で余裕をもたせる
 VOICE_NAME = "ja-JP-Standard-C"
 LANG = "ja-JP"
-OUTPUT_BASE = "/Users/kodamakeita/Pictures/音源素材"
+OUTPUT_BASE = "/Users/Pictures/音源素材"
 
 # ---- SSMLユーティリティ -------------------------------------------------
 
@@ -147,5 +147,4 @@ if __name__ == "__main__":
         src = f.read()
 
     synth_all(src, out_dir)
-
-    # export GOOGLE_APPLICATION_CREDENTIALS="/Users/kodamakeita/Documents/.key/japansci-fi-34616c89ce25.json"
+    
