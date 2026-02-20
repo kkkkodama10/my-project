@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    # 明示的なイメージ名を指定して、ディレクトリ名に含まれる日本語や特殊文字による
+    # 自動生成名の問題を回避します。
+    image: quiz-app-backend:local
+    container_name: quiz-app-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - DATABASE_URL=${DATABASE_URL}
+      - CORS_ORIGINS=${CORS_ORIGINS}
+    volumes:
+      - backend-data:/app/data
+      - backend-uploads:/app/uploads
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    image: quiz-app-frontend:local
+    container_name: quiz-app-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend-data:
+  backend-uploads:

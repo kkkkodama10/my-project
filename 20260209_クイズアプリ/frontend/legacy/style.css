@@ -1,0 +1,157 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    padding: 24px;
+}
+
+#question {
+    white-space: pre-wrap;
+    background: #f6f8fa;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+#admin {
+    margin-top: 18px;
+    border-top: 1px solid #eee;
+    padding-top: 12px
+}
+
+#admin input {
+    padding: 4px 6px;
+    margin-left: 6px
+}
+
+#admin button {
+    margin-right: 6px
+}
+
+#admin-login-status {
+    color: #d33;
+    margin-left: 8px
+}
+
+#admin-action-status {
+    font-family: monospace;
+    font-size: 0.9em
+}
+
+#user {
+    margin-top: 18px;
+    border-top: 1px solid #eee;
+    padding-top: 12px
+}
+
+#user input {
+    padding: 4px 6px;
+    margin-left: 6px
+}
+
+#user button {
+    margin-right: 6px
+}
+
+#join-status,
+#register-status {
+    color: #060
+}
+
+#answer-status {
+    color: #006
+}
+
+/* choice button styles */
+.choice-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.choice-btn+.choice-btn {
+    margin-top: 8px
+}
+
+.choice-btn:hover {
+    background: #f8f9fb
+}
+
+.choice-selected {
+    border-color: #2b7cff;
+    background: linear-gradient(180deg, #e8f0ff, #f2f6ff);
+}
+
+.choice-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.choice-correct {
+    border-color: #22863a;
+    background: linear-gradient(180deg, #dcffe4, #f0fff4) !important;
+    opacity: 1 !important;
+}
+
+.choice-incorrect {
+    border-color: #d73a49;
+    background: linear-gradient(180deg, #ffeef0, #fff5f5) !important;
+    opacity: 1 !important;
+}
+
+.status-correct {
+    color: #22863a;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.status-incorrect {
+    color: #d73a49;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.status-closed {
+    color: #6a737d;
+    font-weight: 500;
+}
+
+.status-noanswer {
+    color: #6a737d;
+}
+
+#deadline-timer {
+    margin-top: 6px;
+    font-size: 0.95em;
+    color: #444;
+}
+
+/* results / leaderboard */
+#results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+#results-table th,
+#results-table td {
+    border: 1px solid #ddd;
+    padding: 6px 10px;
+    text-align: center;
+}
+
+#results-table th {
+    background: #f6f8fa;
+    font-weight: 600;
+}
+
+#results-table tbody tr:nth-child(even) {
+    background: #fafbfc;
+}
+
+#event-summary {
+    color: #555;
+    font-size: 0.9em;
+}

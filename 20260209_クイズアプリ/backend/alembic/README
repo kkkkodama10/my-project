@@ -1,0 +1,51 @@
+Generic single-database configuration for Alembic.
+
+# マイグレーション実行手順
+
+## 1. マイグレーションファイルの自動生成
+
+```bash
+cd backend
+alembic revision --autogenerate -m "initial schema"
+```
+
+## 2. マイグレーションの適用
+
+```bash
+# 最新バージョンにアップグレード
+alembic upgrade head
+
+# 1つ戻す
+alembic downgrade -1
+
+# 特定のリビジョンにアップグレード
+alembic upgrade <revision_id>
+```
+
+## 3. マイグレーション履歴の確認
+
+```bash
+# 現在のリビジョンを確認
+alembic current
+
+# マイグレーション履歴を確認
+alembic history
+```
+
+## AWS デプロイ時の注意
+
+ECS タスク起動時に自動でマイグレーションを実行する場合:
+
+```dockerfile
+# Dockerfile
+CMD alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+または、ECS タスク定義の entrypoint で実行:
+
+```json
+{
+  "entryPoint": ["sh", "-c"],
+  "command": ["alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+}
+```

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Quiz Prototype - Frontend</title>
+    <link rel="stylesheet" href="/style.css?v=3" />
+</head>
+
+<body>
+    <div id="app">
+        <h1>Quiz Prototype</h1>
+        <div id="status">Loading...</div>
+        <!-- <pre id="question"></pre> -->
+
+        <section id="admin">
+            <h2>Admin</h2>
+            <div id="admin-login">
+                <label>Password: <input type="password" id="admin-password" /></label>
+                <button id="admin-login-btn">Login</button>
+                <div id="admin-login-status"></div>
+            </div>
+            <div id="admin-controls" style="display:none; margin-top:8px;">
+                <div style="margin-top:6px;">
+                    <button id="btn-start">Start Event</button>
+                    <button id="btn-next">Next Question</button>
+                    <button id="btn-close">Close Question</button>
+                    <button id="btn-reveal">Reveal Answer</button>
+                    <button id="btn-finish">Finish Event</button>
+                    <button id="btn-reset" style="margin-left:16px; background:#e55; color:#fff; border:none; padding:4px 10px; cursor:pointer;">Reset Event</button>
+                </div>
+                <div id="admin-action-status" style="margin-top:6px;color:#333"></div>
+                <h3 style="margin-top:10px">Action log</h3>
+                <div id="admin-log-list"
+                    style="background:#fff; border:1px solid #eee; padding:8px; max-height:160px; overflow:auto"></div>
+            </div>
+        </section>
+
+        <section id="user" style="margin-top:18px;">
+            <h2>User</h2>
+            <div id="join-section">
+                <label>Join code: <input id="join-code" value="123456" /></label>
+                <button id="btn-join">Join</button>
+                <span id="join-status" style="margin-left:8px"></span>
+            </div>
+            <div id="register-section" style="margin-top:8px; display:none;">
+                <label>Display name base: <input id="display-base" value="guest" /></label>
+                <button id="btn-register">Register</button>
+                <span id="register-status" style="margin-left:8px"></span>
+            </div>
+            <div id="play-section" style="margin-top:12px; display:none;">
+                <div id="me-info" style="margin-bottom:8px"></div>
+                <div id="current-question-area">
+                    <pre id="user-question"></pre>
+                    <div id="choices"></div>
+                    <div id="answer-status" style="margin-top:8px"></div>
+                </div>
+                <div id="results-section" style="display:none;">
+                    <h3>結果発表</h3>
+                    <table id="results-table">
+                        <thead>
+                            <tr>
+                                <th>順位</th>
+                                <th>名前</th>
+                                <th>正解数</th>
+                                <th>正答率</th>
+                                <th>回答時間合計</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div id="event-summary" style="margin-top:8px"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="/app.js?v=3"></script>
+</body>
+
+</html>

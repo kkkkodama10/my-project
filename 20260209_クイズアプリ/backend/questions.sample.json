@@ -1,0 +1,67 @@
+[
+    {
+        "question_id": "q1",
+        "question_text": "日本の首都はどこですか？",
+        "question_image": null,
+        "choices": [
+            { "choice_index": 0, "text": "大阪", "image": null },
+            { "choice_index": 1, "text": "京都", "image": null },
+            { "choice_index": 2, "text": "東京", "image": null },
+            { "choice_index": 3, "text": "名古屋", "image": null }
+        ],
+        "correct_choice_index": 2,
+        "is_enabled": true
+    },
+    {
+        "question_id": "q2",
+        "question_text": "水の化学式はどれですか？",
+        "question_image": null,
+        "choices": [
+            { "choice_index": 0, "text": "CO2", "image": null },
+            { "choice_index": 1, "text": "H2O", "image": null },
+            { "choice_index": 2, "text": "NaCl", "image": null },
+            { "choice_index": 3, "text": "O2", "image": null }
+        ],
+        "correct_choice_index": 1,
+        "is_enabled": true
+    },
+    {
+        "question_id": "q3",
+        "question_text": "関ヶ原の戦いが起こった年はいつですか？",
+        "question_image": null,
+        "choices": [
+            { "choice_index": 0, "text": "1600年", "image": null },
+            { "choice_index": 1, "text": "1467年", "image": null },
+            { "choice_index": 2, "text": "1868年", "image": null },
+            { "choice_index": 3, "text": "1192年", "image": null }
+        ],
+        "correct_choice_index": 0,
+        "is_enabled": true
+    },
+    {
+        "question_id": "q4",
+        "question_text": "オリンピックの五輪マークの輪の数はいくつですか？",
+        "question_image": null,
+        "choices": [
+            { "choice_index": 0, "text": "4つ", "image": null },
+            { "choice_index": 1, "text": "5つ", "image": null },
+            { "choice_index": 2, "text": "6つ", "image": null },
+            { "choice_index": 3, "text": "7つ", "image": null }
+        ],
+        "correct_choice_index": 1,
+        "is_enabled": true
+    },
+    {
+        "question_id": "q5",
+        "question_text": "『源氏物語』の作者は誰ですか？",
+        "question_image": null,
+        "choices": [
+            { "choice_index": 0, "text": "清少納言", "image": null },
+            { "choice_index": 1, "text": "紫式部", "image": null },
+            { "choice_index": 2, "text": "松尾芭蕉", "image": null },
+            { "choice_index": 3, "text": "在原業平", "image": null }
+        ],
+        "correct_choice_index": 1,
+        "is_enabled": true
+    }
+]
