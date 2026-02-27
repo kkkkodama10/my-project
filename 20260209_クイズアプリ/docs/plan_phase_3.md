@@ -1763,28 +1763,221 @@ aws ecs update-service --cluster quiz-app-cluster --service quiz-app-backend --d
 全リソースを削除してコスト発生を止める手順です。
 **削除順序が重要**（依存関係があるため）。コンソールと CLI を併用するのが最も確実です。
 
-### 削除順序
+### 重要な注意事項
 
-| 順番 | リソース | 操作場所 | 手順 |
-|---|---|---|---|
-| 1 | **ECS サービス** | ECS コンソール | サービス → タスク数を 0 → サービスを削除 |
-| 2 | **ECS クラスター** | ECS コンソール | クラスター → 削除 |
-| 3 | **ALB** | EC2 コンソール | ロードバランサー → 削除 |
-| 4 | **ターゲットグループ** | EC2 コンソール | ALB 削除後に削除 |
-| 5 | **RDS** | RDS コンソール | DB インスタンス → 削除（スナップショット不要ならスキップ） |
-| 6 | **ElastiCache** | ElastiCache コンソール | クラスター → 削除 |
-| 7 | **S3 バケット** | S3 コンソール | 中身を空にする → バケットを削除（2 つとも） |
-| 8 | **CloudFront** | CloudFront コンソール | ディストリビューション → 無効化 → 数分待つ → 削除 |
-| 9 | **NAT Gateway** | VPC コンソール | NAT ゲートウェイ → 削除 → 数分後に Elastic IP を解放 |
-| 10 | **ECR** | ECR コンソール | リポジトリ → 削除 |
-| 11 | **セキュリティグループ** | VPC コンソール | 4 つのセキュリティグループを削除（デフォルト SG 以外） |
-| 12 | **サブネット** | VPC コンソール | 4 つのサブネットを削除 |
-| 13 | **ルートテーブル** | VPC コンソール | public-rt, private-rt を削除 |
-| 14 | **インターネットゲートウェイ** | VPC コンソール | VPC からデタッチ → 削除 |
-| 15 | **VPC** | VPC コンソール | VPC を削除 |
-| 16 | **Secrets Manager** | Secrets Manager コンソール | シークレット → 削除 |
-| 17 | **IAM ロール** | IAM コンソール | 2 つのロールを削除 |
-| 18 | **CloudWatch ログ** | CloudWatch コンソール | ロググループ → 削除 |
+⚠️ **削除前の確認:**
+- すべての作業を**正しいリージョン**で実施してください（例: ap-northeast-1）
+- リージョンが違うとリソースが見つからないことがあります
+- デフォルトVPCは削除しないでください（将来的に必要になる可能性があります）
+
+⚠️ **課金を早く止めるための優先順位:**
+1. **時間課金リソース**: RDS, ElastiCache, NAT Gateway, ECS
+2. **ストレージ課金**: S3, ECR
+3. **その他**: CloudWatch Logs, IAM（課金なし）
+
+### 削除順序（フェーズ別）
+
+#### **フェーズ1: アプリケーション層（最優先）**
+
+| 順番 | リソース | 操作場所 | 手順 | 注意事項 |
+|---|---|---|---|---|
+| 1 | **ECS サービス** | ECS コンソール | サービス選択 → 削除 → 「強制削除」にチェック | タスク数が0になることを確認 |
+| 2 | **ECS タスク定義** | ECS コンソール | 各リビジョンを登録解除 | 課金対象ではないため急がなくてOK |
+| 3 | **ECS クラスター** | ECS コンソール | クラスター → 削除 | サービスが完全に削除されてから |
+
+#### **フェーズ2: ネットワーク/配信層**
+
+| 順番 | リソース | 操作場所 | 手順 | 注意事項 |
+|---|---|---|---|---|
+| 4 | **ALB** | EC2 コンソール | ロードバランサー → 削除 | リスナーも自動削除される |
+| 5 | **ターゲットグループ** | EC2 コンソール | ターゲットグループ → 削除 | ALB削除後に実施 |
+| 6 | **CloudFront** | CloudFront コンソール | 無効化 → 15-20分待つ → 削除 | **注意**: 下記の「CloudFront削除の注意点」参照 |
+
+#### **フェーズ3: データ層（時間課金）**
+
+| 順番 | リソース | 操作場所 | 手順 | 注意事項 |
+|---|---|---|---|---|
+| 7 | **ElastiCache** | ElastiCache コンソール | Redis OSS caches → クラスター削除 | 「最終バックアップを作成」のチェックを外す |
+| 8 | **RDS** | RDS コンソール | DB インスタンス → 削除 | スナップショット不要、自動バックアップ保持も無効化 |
+
+#### **フェーズ4: ストレージ/イメージ**
+
+| 順番 | リソース | 操作場所 | 手順 | 注意事項 |
+|---|---|---|---|---|
+| 9 | **S3 バケット（中身）** | S3 コンソール | バケット内のオブジェクトをすべて削除 | バージョニング有効の場合は全バージョン削除 |
+| 10 | **S3 バケット（本体）** | S3 コンソール | 空のバケットを削除 | 2つとも削除（frontend, assets） |
+| 11 | **ECR イメージ** | ECR コンソール | リポジトリ内のイメージをすべて削除 | - |
+| 12 | **ECR リポジトリ** | ECR コンソール | リポジトリを削除 | `--force`で一括削除も可能 |
+
+#### **フェーズ5: ネットワーク基盤**
+
+| 順番 | リソース | 操作場所 | 手順 | 注意事項 |
+|---|---|---|---|---|
+| 13 | **セキュリティグループ** | VPC コンソール | セキュリティグループ → 削除 | **注意**: 下記の「セキュリティグループ削除の注意点」参照 |
+| 14 | **NAT Gateway** | VPC コンソール | NAT ゲートウェイ → 削除 | **時間課金なので優先度高** |
+| 15 | **Elastic IP** | VPC コンソール | NAT Gateway削除後に解放 | NAT Gateway削除の数分後に実施 |
+| 16 | **VPCエンドポイント** | VPC コンソール | エンドポイント → 削除 | あれば削除 |
+| 17 | **ENI** | EC2 コンソール | ネットワークインターフェイス → 削除 | ステータスが`available`のもののみ |
+| 18 | **サブネット** | VPC コンソール | サブネットを削除 | 4つすべて削除 |
+| 19 | **ルートテーブル** | VPC コンソール | カスタムルートテーブルを削除 | デフォルトRTは削除不可 |
+| 20 | **インターネットゲートウェイ** | VPC コンソール | VPCからデタッチ → 削除 | - |
+| 21 | **VPC** | VPC コンソール | VPC を削除 | **カスタムVPCのみ削除**（デフォルトVPCは残す） |
+
+#### **フェーズ6: その他**
+
+| 順番 | リソース | 操作場所 | 手順 | 注意事項 |
+|---|---|---|---|---|
+| 22 | **CloudWatch ロググループ** | CloudWatch コンソール | ロググループ → 削除 | `/ecs/quiz-app-backend`など |
+| 23 | **IAM ロール** | IAM コンソール | ロール → ポリシーをデタッチ → 削除 | ECS用の2つのロール |
+| 24 | **Secrets Manager** | Secrets Manager コンソール | シークレット → 削除 | 使用していない場合はスキップ |
+
+---
+
+### CloudFront削除の注意点
+
+**問題**: 無料プラン（Free plan）に加入している場合、以下のエラーが出て削除できません。
+
+```
+You can't delete this distribution while it's subscribed to a pricing plan.
+After you cancel the pricing plan, you can delete the distribution at the end of monthly billing cycle.
+```
+
+**対処法:**
+
+1. **プラン管理画面で確認**
+   - CloudFront コンソール → ディストリビューション詳細 → 右側の「Manage plan」をクリック
+   - 「Changing to pay-as-you-go in X days」と表示されている場合、その日付まで待つ
+
+2. **削除可能になるタイミング**
+   - 月次請求サイクルの終わり（通常は月初）
+   - 例: 2026年3月1日以降に削除可能
+
+3. **それまでの対応**
+   - ディストリビューションを**無効化**しておく（課金なし）
+   - 無料プランなので追加課金は発生しない
+   - 他のリソースを優先的に削除
+
+---
+
+### セキュリティグループ削除の注意点
+
+**問題**: セキュリティグループ間の循環参照で削除できない場合があります。
+
+**例**: `quiz-ecs-sg`のインバウンドルールが`quiz-alb-sg`を参照している場合
+
+**対処法:**
+
+1. **インバウンド/アウトバウンドルールを先に削除**
+   ```bash
+   # UIの場合
+   EC2 → セキュリティグループ → quiz-ecs-sg → インバウンドルールを編集 → すべて削除
+   ```
+
+2. **ENI（ネットワークインターフェース）を確認**
+   ```bash
+   # ENIの確認
+   aws ec2 describe-network-interfaces \
+     --filters "Name=group-id,Values=sg-xxxxx" \
+     --query 'NetworkInterfaces[*].[NetworkInterfaceId,Status,Description]'
+   ```
+
+3. **ステータスが`available`のENIを削除**
+   ```bash
+   aws ec2 delete-network-interface --network-interface-id eni-xxxxx
+   ```
+
+4. **セキュリティグループ本体を削除**
+   - 推奨順序: `quiz-ecs-sg` → `quiz-alb-sg` → `quiz-rds-sg` → `quiz-redis-sg`
+
+---
+
+### 最終確認コマンド
+
+すべてのリソースが削除されたことを確認するコマンド集です。
+
+```bash
+# === ECS ===
+aws ecs list-clusters
+# 期待結果: {"clusterArns": []}
+
+# === RDS ===
+aws rds describe-db-instances --query 'DBInstances[*].DBInstanceIdentifier'
+# 期待結果: []
+
+# === ElastiCache ===
+aws elasticache describe-cache-clusters --query 'CacheClusters[*].CacheClusterId'
+# 期待結果: []
+
+# === S3 ===
+aws s3 ls
+# 期待結果: (空 or クイズアプリ以外のバケットのみ)
+
+# === ECR ===
+aws ecr describe-repositories --query 'repositories[*].repositoryName'
+# 期待結果: []
+
+# === VPC ===
+aws ec2 describe-vpcs --query 'Vpcs[*].[VpcId,IsDefault,Tags[?Key==`Name`].Value|[0]]' --output table
+# 期待結果: デフォルトVPCのみ（IsDefault=True）
+
+# === NAT Gateway ===
+aws ec2 describe-nat-gateways --filter "Name=state,Values=available"
+# 期待結果: {"NatGateways": []}
+
+# === CloudWatch Logs ===
+aws logs describe-log-groups --query 'logGroups[?contains(logGroupName, `quiz`)].logGroupName'
+# 期待結果: []
+
+# === IAM ロール ===
+aws iam list-roles --query 'Roles[?contains(RoleName, `quiz`)].RoleName'
+# 期待結果: []
+```
+
+**複数リージョンでの確認（推奨）:**
+
+```bash
+# すべてのリージョンで残存リソースを確認
+for region in us-east-1 ap-northeast-1 ap-northeast-3; do
+  echo "=== Region: $region ==="
+  aws ec2 describe-instances --region $region --query 'Reservations[*].Instances[*].[InstanceId,State.Name]' --output table
+  aws rds describe-db-instances --region $region --query 'DBInstances[*].DBInstanceIdentifier' --output table 2>/dev/null
+done
+```
+
+---
+
+### デフォルトVPCについて
+
+⚠️ **重要**: 以下のようなVPCは**削除しないでください**
+
+```bash
+# VPCの確認
+aws ec2 describe-vpcs --vpc-ids vpc-xxxxx --query 'Vpcs[*].[VpcId,IsDefault,CidrBlock]'
+
+# 出力例
+# vpc-xxxxx | True | 172.31.0.0/16
+```
+
+- `IsDefault = True` のVPCはAWSが各リージョンで自動作成する標準VPC
+- 削除すると将来的に他のサービスで問題が発生する可能性があります
+- カスタムVPC（クイズアプリ用に作成したVPC）のみ削除してください
+
+---
+
+### 課金確認
+
+削除後、数日以内に以下を確認してください:
+
+1. **AWS Cost Explorer**
+   - コスト管理 → Cost Explorer → 日次コストを確認
+   - クイズアプリ関連のサービスがゼロになっていることを確認
+
+2. **請求ダッシュボード**
+   - 請求 → 請求書 → 今月の請求額を確認
+   - 削除前の日割り分のみ請求される
+
+3. **CloudWatch アラーム（オプション）**
+   - 予算を超えた場合の通知設定を確認
 
 > **ヒント**: VPC を削除する際に「依存関係があります」エラーが出る場合は、
 > VPC 内のリソース（ENI、セキュリティグループ等）が残っていないか確認してください。
