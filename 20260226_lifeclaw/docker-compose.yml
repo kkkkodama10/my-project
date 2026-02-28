@@ -1,0 +1,12 @@
+services:
+  openclaw:
+    build: .
+    container_name: lifeclaw-gateway
+    ports:
+      - "18789:18789"
+    volumes:
+      - ~/.openclaw:/home/node/.openclaw
+    env_file:
+      - .env
+    user: "1000:1000"
+    restart: unless-stopped

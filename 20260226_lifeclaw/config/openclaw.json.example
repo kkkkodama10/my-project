@@ -1,0 +1,18 @@
+{
+  "gateway": {
+    "mode": "local",
+    "bind": "lan"
+  },
+  "channels": {
+    "line": {
+      "token": "<LINE_CHANNEL_ACCESS_TOKEN>",
+      "secret": "<LINE_CHANNEL_SECRET>"
+    }
+  },
+  "skills": {
+    "allowBundled": ["notion"]
+  },
+  "cron": {
+    "enabled": true
+  }
+}
