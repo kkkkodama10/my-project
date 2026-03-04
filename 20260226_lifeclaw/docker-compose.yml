@@ -6,6 +6,8 @@ services:
       - "18789:18789"
     volumes:
       - ~/.openclaw:/home/node/.openclaw
+    environment:
+      - TZ=Asia/Tokyo
     env_file:
       - .env
     user: "1000:1000"
