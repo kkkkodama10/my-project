@@ -27,3 +27,24 @@ node_modules
 
 .vscode/
 20250830_text2speach/README.md
+
+# Build output
+dist/
+build/
+
+# Runtime data
+data/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+*.swp
+*.swo
+Thumbs.db
+
+# Claude Code local settings
+.claude/settings.local.json
