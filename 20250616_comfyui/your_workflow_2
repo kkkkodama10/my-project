@@ -1,0 +1,94 @@
+digraph {
+	0 [label="InputEnum
+(id=0)"]
+	1 [label="InputEnum
+(id=1)"]
+	2 [label="InputInt
+(id=2)"]
+	25 [label="VideoInput
+(id=25)"]
+	3 [label="FrameSplitter
+(id=3)"]
+	4 [label="FeatureCalculation
+(id=4)"]
+	5 [label="FeatureCalculation
+(id=5)"]
+	6 [label="FeatureCalculation
+(id=6)"]
+	7 [label="FeatureCalculation
+(id=7)"]
+	8 [label="FeatureCalculation
+(id=8)"]
+	9 [label="FeatureCalculation
+(id=9)"]
+	10 [label="Concat
+(id=10)"]
+	11 [label="FeatureCalculation
+(id=11)"]
+	12 [label="FeatureCalculation
+(id=12)"]
+	13 [label="FeatureCalculation
+(id=13)"]
+	14 [label="FeatureCalculation
+(id=14)"]
+	15 [label="FeatureCalculation
+(id=15)"]
+	16 [label="FeatureCalculation
+(id=16)"]
+	17 [label="FeatureCalculation
+(id=17)"]
+	18 [label="FeatureCalculation
+(id=18)"]
+	19 [label="Concat
+(id=19)"]
+	20 [label="FeatureCalculation
+(id=20)"]
+	21 [label="Concat
+(id=21)"]
+	22 [label="SwitchByEnum
+(id=22)"]
+	23 [label="AggregateTopN
+(id=23)"]
+	24 [label="Output
+(id=24)"]
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 0
+	0 -> 1
+	0 -> 2
+	0 -> 3
+	0 -> 4
+	0 -> 5
+	0 -> 0
+	0 -> 1
+	0 -> 2
+	0 -> 3
+	0 -> 4
+	0 -> 5
+	0 -> 6
+	0 -> 7
+	0 -> 0
+	0 -> 0
+	0 -> 1
+	0 -> 2
+	0 -> 3
+	0 -> 4
+	0 -> 0
+	0 -> 1
+	0 -> 2
+	0 -> 0
+}

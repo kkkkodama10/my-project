@@ -1,0 +1,68 @@
+{
+  "nodes": [
+    { "id": 0,  "type": "InputEnum",  "pos": [-400, -160], "params": { "enum_class": "ExtractFeatureMethodEnum", "default": "POSITION" } },
+    { "id": 1,  "type": "InputEnum",  "pos": [-400,  -40], "params": { "enum_class": "AggregateMethodEnum",      "default": "TOP_N_MEAN" } },
+    { "id": 2,  "type": "InputInt",   "pos": [-400,   80], "params": { "name": "top_n", "default": 3, "min": 1, "max": 20 } },
+    { "id": 25, "type": "VideoInput","pos": [-400,  200], "params": {} },
+    { "id": 3,  "type": "FrameSplitter", "pos": [-200, 200], "params": {} },
+
+    { "id": 4,  "type": "FeatureCalculation", "pos": [0, -160], "params": { "method": "x_min" } },
+    { "id": 5,  "type": "FeatureCalculation", "pos": [0, -120], "params": { "method": "x_max" } },
+    { "id": 6,  "type": "FeatureCalculation", "pos": [0,  -80], "params": { "method": "y_min" } },
+    { "id": 7,  "type": "FeatureCalculation", "pos": [0,  -40], "params": { "method": "y_max" } },
+    { "id": 8,  "type": "FeatureCalculation", "pos": [0,    0], "params": { "method": "x_range" } },
+    { "id": 9,  "type": "FeatureCalculation", "pos": [0,   40], "params": { "method": "y_range" } },
+
+    { "id": 10, "type": "Concat", "pos": [200, -80], "params": {} },
+
+    { "id": 11, "type": "FeatureCalculation", "pos": [0,  120], "params": { "method": "x_centroid_all" } },
+    { "id": 12, "type": "FeatureCalculation", "pos": [0,  160], "params": { "method": "y_centroid_all" } },
+    { "id": 13, "type": "FeatureCalculation", "pos": [0,  200], "params": { "method": "x_centroid_1/3" } },
+    { "id": 14, "type": "FeatureCalculation", "pos": [0,  240], "params": { "method": "x_centroid_2/3" } },
+    { "id": 15, "type": "FeatureCalculation", "pos": [0,  280], "params": { "method": "x_centroid_3/3" } },
+    { "id": 16, "type": "FeatureCalculation", "pos": [0,  320], "params": { "method": "y_centroid_1/3" } },
+    { "id": 17, "type": "FeatureCalculation", "pos": [0,  360], "params": { "method": "y_centroid_2/3" } },
+    { "id": 18, "type": "FeatureCalculation", "pos": [0,  400], "params": { "method": "y_centroid_3/3" } },
+
+    { "id": 19, "type": "Concat", "pos": [200, 240], "params": {} },
+
+    { "id": 20, "type": "FeatureCalculation", "pos": [0,  480], "params": { "method": "pixel_size" } },
+    { "id": 21, "type": "Concat", "pos": [200, 480], "params": {} },
+
+    { "id": 22, "type": "SwitchByEnum", "pos": [400, 120], "params": {} },
+    { "id": 23, "type": "AggregateTopN", "pos": [600, 120], "params": {} },
+    { "id": 24, "type": "Output", "pos": [800, 120], "params": {} }
+  ],
+
+  "links": [
+    [25, 0,  3,  0],
+
+    [3, 0,  4, 0], [3, 0,  5, 0], [3, 0,  6, 0], [3, 0,  7, 0],
+    [3, 0,  8, 0], [3, 0,  9, 0],
+    [3, 0, 11, 0], [3, 0, 12, 0], [3, 0, 13, 0], [3, 0, 14, 0],
+    [3, 0, 15, 0], [3, 0, 16, 0], [3, 0, 17, 0], [3, 0, 18, 0],
+    [3, 0, 20, 0],
+
+    [4, 0, 10, 0], [5, 0, 10, 1], [6, 0, 10, 2],
+    [7, 0, 10, 3], [8, 0, 10, 4], [9, 0, 10, 5],
+
+    [11, 0, 19, 0], [12, 0, 19, 1], [13, 0, 19, 2], [14, 0, 19, 3],
+    [15, 0, 19, 4], [16, 0, 19, 5], [17, 0, 19, 6], [18, 0, 19, 7],
+
+    [20, 0, 21, 0],
+
+    [0,  0, 22, 0],
+    [10, 0, 22, 1],
+    [19, 0, 22, 2],
+    [21, 0, 22, 3],
+    [21, 0, 22, 4],
+
+    [22, 0, 23, 0],
+    [2,  0, 23, 1],
+    [1,  0, 23, 2],
+
+    [23, 0, 24, 0]
+  ],
+
+  "groups": []
+}
