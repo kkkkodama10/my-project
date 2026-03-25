@@ -1,0 +1,5 @@
+analysis:
+  landmark_detector: "mediapipe"       # mediapipe | dlib (Phase 3)
+  feature_extractor: "distance_ratio"  # distance_ratio | procrustes (Phase 3)
+  similarity_method: "cosine"          # cosine | euclidean (Phase 2) | procrustes (Phase 3)
+  aggregation: "average"               # average | single (Phase 2) | median (Phase 2)

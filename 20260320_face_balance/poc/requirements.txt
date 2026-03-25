@@ -1,0 +1,18 @@
+# PoC用追加ライブラリ
+# インストール: pip install -r poc/requirements.txt
+
+# 既存（backendと共通）
+mediapipe>=0.10
+opencv-python-headless>=4.9
+numpy>=1.26
+scipy>=1.13
+Pillow>=10.0
+
+# 評価・可視化
+matplotlib>=3.8       # ヒストグラム・ROC曲線・ヒートマップ
+scikit-learn>=1.4     # AUC・ROC計算 (sklearn.metrics)
+pandas>=2.0           # 結果のCSV出力・集計
+
+# Exp-E: face_recognition (dlib 128次元埋め込み)
+# 事前に: brew install cmake
+# face_recognition>=1.3

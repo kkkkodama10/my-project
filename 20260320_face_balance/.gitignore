@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Runtime data
+data/
+
+# PoC evaluation data（個人の顔写真のため除外）
+poc/data/
+poc/results/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# Claude Code local settings
+.claude/settings.local.json
